@@ -1,0 +1,43 @@
+version: '3'
+services:
+  db_apps:
+    image: mysql/mysql-server:5.7
+    ports:
+      - "3305:3305"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_USER=${DB_USER}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_DATABASE=${DB_NAME}"
+    networks:
+      - MY_APPS
+    volumes:
+      - mysql:/var/lib/mysql 
+  pma:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db_apps
+    ports:
+      - 5003:80
+    environment:
+      - "PMA_HOST=apache"
+      - "PMA_PORT=80"
+    container_name: golang-docker-pma
+    networks:
+      - MY_APPS  
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - "api:/app"
+    depends_on:
+      - db_apps
+    networks:
+      - MY_APPS
+volumes:
+  api:
+  mysql:
+networks:
+  MY_APPS:
+    driver: bridge
