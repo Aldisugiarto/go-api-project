@@ -1,0 +1,11 @@
+{
+    "database": {
+        "host": "127.0.0.1",
+        "db-container": "rest_api-db",
+        "port": "3306",
+        "name": "sys",
+        "user": "root",
+        "pass": "root",
+        "timeout": 1
+    }
+}
