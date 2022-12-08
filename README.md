@@ -118,8 +118,23 @@ There are two type to test the API
         return db
     }
     ```
-3. Run docker daemon (in my case I used windows, so I install docker desktop) you can visit [docker](https://www.docker.com/)  website for more information. Open docker desktop with Run as Administrator
-4. Open terminal on your top of project and type below command:
+3. Check the Docker-compose.yml for the database image.
+    ```
+    database:
+        image: mysql:5.7.22
+        environment:
+            MYSQL_ROOT_PASSWORD:
+            MYSQL_USER: root
+            MYSQL_PASSWORD:
+            MYSQL_DATABASE: privyTest
+            container_name: rest_api-db
+        ports:
+            - 33066:3306
+        volumes:
+            - rest_api-data:/var/lib/mysql 
+    ```
+4. Run docker daemon (in my case I used windows, so I install docker desktop) you can visit [docker](https://www.docker.com/)  website for more information. Open docker desktop with Run as Administrator
+5. Open terminal on your top of project and type below command:
     ```
     >> docker-compose build
     >> docker-compose up
