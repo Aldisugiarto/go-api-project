@@ -28,13 +28,16 @@ The project have some requirement:
  - Adding extras like (but not limited to) fancy architectural and elegant error handling & logging
 
 ## How to run this project
-
+### Getting started
 ### Setting database:
 There are two type to test the API
 - Running with "go test"
 - Running wiith docker
 #### A. Running with go test on the terminal 
-1. Setting database for "go test" in file config-dev.json. Fill name with existing database. In this case I used sys database
+1. Install [XAMPP](https://www.apachefriends.org/), [laragon](https://laragon.org/), or etc
+2. Run server (apache, nginx, etc) and database (mysql)
+3. Setting port refer to XAMPP, laragon, etc (Ex. Apache on port 80 and mysql on port 3306)
+4. Setting database for "go test" in file config-dev.json. Fill name with existing database. In this case I used sys database
     ```
     {
         "database": {
@@ -48,7 +51,7 @@ There are two type to test the API
         }
     }
     ```
-2. Setting database connection at file config.go under folder config. Uncomment dbHost and dbPort, after that uncomment connection which used host and port
+5. Setting database connection at file config.go under folder config. Uncomment dbHost and dbPort, after that uncomment connection which used host and port
     ```
     func InitDB(c *gin.Context) (db *sql.DB) {
         config := NewConfiguration()
@@ -72,7 +75,10 @@ There are two type to test the API
         return db
     }
     ```
-3. Open the terminal and type go test at the top of project
+6. Open the terminal and type go test at the top of project
+    ```
+    >> go test
+    ```
 #### B. Running with docker
 1. Setting database for "go test" in file config-dev.json. Fill name with existing database. In this case I used sys database
     ```
