@@ -39,6 +39,7 @@ func Migrate(db *sql.DB) {
 	if err != nil {
 		panic(err.Error())
 	}
+	defer db.Close()
 }
 
 func getFilePathConfigEnvirontment() string {
