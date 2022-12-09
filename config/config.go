@@ -33,12 +33,17 @@ func InitDB(c *gin.Context) (db *sql.DB) {
 }
 
 func Migrate(db *sql.DB) {
-	query := `CREATE DATABASE privyTest;`
+	query := `CREATE DATABASE IF NOT EXISTS privyTest;`
 	table := `CREATE TABLE IF NOT EXISTS privyTest.cakes(id int primary key auto_increment, title varchar(100),  
         description text, rating float, image text, created_at datetime, updated_at datetime)`
-	_, err := db.ExecContext(context.Background(), query)
+	use := `USE privyTest`
+	_, err := db.Exec(query)
 	if err != nil {
 		panic(err.Error())
+	}
+	_, err = db.Exec(use)
+	if err != nil {
+		panic(err)
 	}
 	_, err = db.ExecContext(context.Background(), table)
 	if err != nil {
