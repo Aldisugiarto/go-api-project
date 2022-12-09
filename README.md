@@ -43,7 +43,7 @@ There are two type to test the API
         "database": {
             "host": "127.0.0.1",
             "db-container": "rest_api-db",
-            "port": "3306",
+            "port": "33066",
             "name": "sys",
             "user": "root",
             "pass": "root",
@@ -62,9 +62,9 @@ There are two type to test the API
         // dbContainer := config.GetValue(`database.db-container`)
         dbUser := config.GetValue(`database.user`)
         dbPass := config.GetValue(`database.pass`)
-        dbName := config.GetValue(`database.name`)
+        // dbName := config.GetValue(`database.name`)
         connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName) //Uncomment this row if not use docker
-        // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/" + dbName)
+        // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/")
         db, err := sql.Open(dbDriver, connection)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{
@@ -86,7 +86,7 @@ There are two type to test the API
         "database": {
             "host": "127.0.0.1",
             "db-container": "rest_api-db",
-            "port": "3306",
+            "port": "33066",
             "name": "sys",
             "user": "root",
             "pass": "root",
@@ -105,9 +105,9 @@ There are two type to test the API
         dbContainer := config.GetValue(`database.db-container`)
         dbUser := config.GetValue(`database.user`)
         dbPass := config.GetValue(`database.pass`)
-        dbName := config.GetValue(`database.name`)
+        // dbName := config.GetValue(`database.name`)
         // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName) //Uncomment this row if not use docker
-        connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/" + dbName)
+        connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/")
         db, err := sql.Open(dbDriver, connection)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{
@@ -118,15 +118,15 @@ There are two type to test the API
         return db
     }
     ```
-3. Check the Docker-compose.yml for the database image.
+3. Check the docker-compose.yml for the database image.
     ```
     database:
         image: mysql:5.7.22
         environment:
-            MYSQL_ROOT_PASSWORD:
+            MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: root
             MYSQL_PASSWORD:
-            MYSQL_DATABASE: privyTest
+            MYSQL_DATABASE:
             container_name: rest_api-db
         ports:
             - 33066:3306

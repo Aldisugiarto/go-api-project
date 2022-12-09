@@ -19,9 +19,9 @@ func InitDB(c *gin.Context) (db *sql.DB) {
 	dbContainer := config.GetValue(`database.db-container`)
 	dbUser := config.GetValue(`database.user`)
 	dbPass := config.GetValue(`database.pass`)
-	dbName := config.GetValue(`database.name`)
+	// dbName := config.GetValue(`database.name`)
 	// connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName) //Uncomment this row if not use docker
-	connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/" + dbName)
+	connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/")
 	db, err := sql.Open(dbDriver, connection)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -48,12 +48,6 @@ func Migrate(db *sql.DB) {
 
 func getFilePathConfigEnvirontment() string {
 	env := "dev"
-	// if len(os.Args) >= 2 && os.Args[1] != "" {
-	// 	log.Println(os.Args[1])
-	// 	env = os.Args[1]
-	// } else {
-	// 	log.Fatal("you must define environtment")
-	// }
 	switch env {
 	case "dev":
 		return "config-dev.json"
