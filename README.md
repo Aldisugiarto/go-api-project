@@ -126,7 +126,7 @@ There are two type to test the API
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: root
             MYSQL_PASSWORD:
-            MYSQL_DATABASE:
+            MYSQL_DATABASE: privyTest
             container_name: rest_api-db
         ports:
             - 33066:3306
