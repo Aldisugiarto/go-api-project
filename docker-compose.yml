@@ -14,19 +14,21 @@ services:
       - database
     container_name: rest_api-web
     environment:
-      - 'DB_PORT=33066'
-      - 'DB_HOST=database'
+      - 'DB_PORT=3306'
+      - 'DB_HOST=rest_api-db'
 
   database:
-    image: mysql:5.7.22
+    image: mysql:8.0
+    container_name: rest_api-db
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
       MYSQL_DATABASE: privyTest
-    container_name: rest_api-db
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
-      - 33066:3306
+      - 3306:3306
     volumes:
       - rest_api-data:/var/lib/mysql 
 

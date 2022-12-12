@@ -2,10 +2,10 @@
     "database": {
         "host": "127.0.0.1",
         "db-container": "rest_api-db",
-        "port": "33066",
+        "port": "3306",
         "name": "sys",
-        "user": "root",
-        "pass": "root",
+        "user": "user",
+        "pass": "password",
         "timeout": 1
     }
 }
