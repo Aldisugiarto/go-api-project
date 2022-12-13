@@ -15,10 +15,12 @@ services:
     container_name: rest_api-web
     environment:
       - 'DB_PORT=3306'
-      - 'DB_HOST=rest_api-db'
+      - 'DB_HOST=database'
+    networks:
+      - rest_api-net
 
   database:
-    image: mysql:8.0
+    image: mysql:5.7
     container_name: rest_api-db
     restart: always
     environment:
@@ -26,11 +28,13 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: privyTest
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     ports:
       - 3306:3306
     volumes:
-      - rest_api-data:/var/lib/mysql 
+      - rest_api-data:/var/lib/mysql
+    networks:
+      - rest_api-net 
 
   pma:
     image: phpmyadmin/phpmyadmin
@@ -42,8 +46,14 @@ services:
       - 'PMA_HOST=database'
       - 'PMA_PORT=3306'
     container_name: rest_api-pma
+    networks:
+      - rest_api-net
 
 
 # persisted storage
 volumes:
   rest_api-data:
+
+networks:
+  rest_api-net:
+    driver: bridge

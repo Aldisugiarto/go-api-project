@@ -57,14 +57,14 @@ There are two type to test the API
         config := NewConfiguration()
         config.LoadConfigurationFromFile(getFilePathConfigEnvirontment())
         dbDriver := "mysql"
-        dbHost := config.GetValue(`database.host`) //Uncomment this row if not use docker
+        dbHost := config.GetValue(`database.host`)
         dbPort := config.GetValue(`database.port`)
-        // dbContainer := config.GetValue(`database.db-container`)
+        // dbContainer := config.GetValue(`database.db-container`) //Uncomment this row if use docker
         dbUser := config.GetValue(`database.user`)
         dbPass := config.GetValue(`database.pass`)
         // dbName := config.GetValue(`database.name`)
-        connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName) //Uncomment this row if not use docker
-        // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/")
+        connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/")
+        // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ":" + dbPort + ")/") //Uncomment this row if use docker
         db, err := sql.Open(dbDriver, connection)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{
@@ -100,14 +100,14 @@ There are two type to test the API
         config := NewConfiguration()
         config.LoadConfigurationFromFile(getFilePathConfigEnvirontment())
         dbDriver := "mysql"
-        // dbHost := config.GetValue(`database.host`) //Uncomment this row if not use docker
-        // dbPort := config.GetValue(`database.port`)
-        dbContainer := config.GetValue(`database.db-container`)
+        // dbHost := config.GetValue(`database.host`)
+        dbPort := config.GetValue(`database.port`)
+        dbContainer := config.GetValue(`database.db-container`) //Uncomment this row if use docker
         dbUser := config.GetValue(`database.user`)
         dbPass := config.GetValue(`database.pass`)
         // dbName := config.GetValue(`database.name`)
-        // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName) //Uncomment this row if not use docker
-        connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/")
+        // connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/")
+        connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ":" + dbPort + ")/") //Uncomment this row if use docker
         db, err := sql.Open(dbDriver, connection)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{
@@ -121,17 +121,21 @@ There are two type to test the API
 3. Check the docker-compose.yml for the database image.
     ```
     database:
-        image: mysql:5.7.22
+        image: mysql:5.7
+        container_name: rest_api-db
+        restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: root
-            MYSQL_PASSWORD:
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
             MYSQL_DATABASE: privyTest
-            container_name: rest_api-db
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
         ports:
-            - 33066:3306
+        - 3306:3306
         volumes:
-            - rest_api-data:/var/lib/mysql 
+        - rest_api-data:/var/lib/mysql
+        networks:
+        - rest_api-net 
     ```
 4. Run docker daemon (in my case I used windows, so I install docker desktop) you can visit [docker](https://www.docker.com/)  website for more information. Open docker desktop with Run as Administrator
 5. Open terminal on your top of project and type below command:

@@ -14,14 +14,14 @@ func InitDB(c *gin.Context) (db *sql.DB) {
 	config := NewConfiguration()
 	config.LoadConfigurationFromFile(getFilePathConfigEnvirontment())
 	dbDriver := "mysql"
-	// dbHost := config.GetValue(`database.host`) //Uncomment this row if not use docker
-	// dbPort := config.GetValue(`database.port`)
-	dbContainer := config.GetValue(`database.db-container`)
+	// dbHost := config.GetValue(`database.host`)
+	dbPort := config.GetValue(`database.port`)
+	dbContainer := config.GetValue(`database.db-container`) //Uncomment this row if use docker
 	dbUser := config.GetValue(`database.user`)
 	dbPass := config.GetValue(`database.pass`)
 	// dbName := config.GetValue(`database.name`)
-	// connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName) //Uncomment this row if not use docker
-	connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ")/")
+	// connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbHost + ":" + dbPort + ")/")
+	connection := fmt.Sprintf(dbUser + ":" + dbPass + "@tcp(" + dbContainer + ":" + dbPort + ")/") //Uncomment this row if use docker
 	db, err := sql.Open(dbDriver, connection)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
