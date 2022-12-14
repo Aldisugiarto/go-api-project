@@ -20,7 +20,7 @@ services:
       - rest_api-net
 
   database:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: rest_api-db
     restart: always
     environment:
