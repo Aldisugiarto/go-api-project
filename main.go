@@ -14,5 +14,5 @@ func main() {
 		DB: db,
 	}
 	r := router.StartApp(cakeRepo)
-	r.Run(":8080")
+	r.Run(":3030")
 }

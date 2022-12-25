@@ -7,7 +7,7 @@ services:
       dockerfile: ./docker/app.dockerfile
     restart: always
     ports:
-      - 8080:8080
+      - 3030:3030
     volumes:
       - .:/rest_api
     depends_on:
@@ -27,7 +27,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      MYSQL_DATABASE: privyTest
+      MYSQL_DATABASE: todo4
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     ports:
       - 3306:3306
@@ -35,19 +35,6 @@ services:
       - rest_api-data:/var/lib/mysql
     networks:
       - rest_api-net 
-
-  pma:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - database
-    ports:
-      - 5003:80
-    environment:
-      - 'PMA_HOST=database'
-      - 'PMA_PORT=3306'
-    container_name: rest_api-pma
-    networks:
-      - rest_api-net
 
 
 # persisted storage
